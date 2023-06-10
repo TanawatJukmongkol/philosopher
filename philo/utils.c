@@ -6,7 +6,7 @@
 /*   By: tjukmong <tjukmong@student.42bangkok.co    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/10 16:39:34 by tjukmong          #+#    #+#             */
-/*   Updated: 2023/06/10 16:49:11 by tjukmong         ###   ########.fr       */
+/*   Updated: 2023/06/10 16:55:45 by tjukmong         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,7 +32,7 @@ void	msleep(t_philo *ph, size_t *time_output, int msec)
 	target = begin + msec;
 	while (time < target)
 	{
-		usleep(100);
+		usleep(25);
 		gettimeofday(&ph->timer, NULL);
 		time = ((ph->timer.tv_sec - ph->table->rules.t_start.tv_sec) * 1000)
 			+ ((ph->timer.tv_usec - ph->table->rules.t_start.tv_usec) / 1000); 

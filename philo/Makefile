@@ -6,7 +6,7 @@
 #    By: tjukmong <tjukmong@student.42bangkok.co    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/05/09 05:42:52 by tjukmong          #+#    #+#              #
-#    Updated: 2023/06/10 16:42:20 by tjukmong         ###   ########.fr        #
+#    Updated: 2023/06/10 16:56:50 by tjukmong         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -21,9 +21,9 @@ SRC			= ${addprefix ${BUILD_DIR},${SRCS}}
 OBJ			= ${SRC:.c=.o}
 
 CC			= cc
-CFLAG		= -g -Wall -Werror -Wextra -O3 -fsanitize=address
-# CFLAG		= -g -Wall -Werror -Wextra -O3
-# CFLAG		= -g -fsanitize=address
+# CFLAGS		= -g -Wall -Werror -Wextra -O3 -fsanitize=address
+CFLAGS		= -g -Wall -Werror -Wextra -O3
+# CFLAGS		= -g -fsanitize=address
 
 all: library ${BUILD_DIR} ${NAME}
 
@@ -43,9 +43,9 @@ ${BUILD_DIR}:
 	mkdir -p ${BUILD_DIR}
 
 ${BUILD_DIR}%.o:${SRC_DIR}%.c
-	$(CC) $(CFLAG) -c -o $@ $^
+	$(CC) $(CFLAGS) -c -o $@ $^
 
 ${NAME}: ${OBJ}
-	$(CC) ${OBJ} ${wildcard ${LIB_DIR}/*/*.a} -o ${NAME} $(CFLAG)
+	$(CC) ${OBJ} ${wildcard ${LIB_DIR}/*/*.a} -o ${NAME} $(CFLAGS)
 
 .PHONY:	all library clean fclean re
