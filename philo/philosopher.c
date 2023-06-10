@@ -6,7 +6,7 @@
 /*   By: tjukmong <tjukmong@student.42bangkok.co    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/14 03:26:47 by tjukmong          #+#    #+#             */
-/*   Updated: 2023/06/10 01:30:31 by tjukmong         ###   ########.fr       */
+/*   Updated: 2023/06/10 17:19:18 by tjukmong         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -79,7 +79,7 @@ void	philo_join(t_table *t)
 void	philo_died(t_philo *ph)
 {
 	if (!ph->table->nbr_philo)
-		return ;
+		return (pthread_exit(NULL));
 	printf("Philosopher %d died\n", ph->id);
 	philo_purge(ph, 1);
 }
@@ -89,12 +89,15 @@ void	philo_purge(t_philo *ph, int detatch)
 	t_philo	*head;
 	t_philo	*tmp;
 
-	head = ph->right;
+	head = ph;
 	while (1)
 	{
 		tmp = ph->right;
 		if (tmp == head)
+		{
+			free(ph);
 			return ;
+		}
 		if (detatch)
 		{
 			pthread_detach(ph->thread);

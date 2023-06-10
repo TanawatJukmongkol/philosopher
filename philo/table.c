@@ -6,7 +6,7 @@
 /*   By: tjukmong <tjukmong@student.42bangkok.co    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/14 03:26:50 by tjukmong          #+#    #+#             */
-/*   Updated: 2023/06/10 16:45:40 by tjukmong         ###   ########.fr       */
+/*   Updated: 2023/06/10 17:18:41 by tjukmong         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,6 +26,6 @@ void	*philo_routine(void *ph)
 		philo->state.eaten++;
 		update_timestamp(ph, &time);
 	}
-	philo_died(ph);
+	// philo_died(ph);
 	return (NULL);
 }

@@ -6,7 +6,7 @@
 /*   By: tjukmong <tjukmong@student.42bangkok.co    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/09 05:46:35 by tjukmong          #+#    #+#             */
-/*   Updated: 2023/06/10 16:46:03 by tjukmong         ###   ########.fr       */
+/*   Updated: 2023/06/10 17:04:16 by tjukmong         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,6 +33,7 @@ enum	e_state
 	_sleep	= 3
 };
 
+// Define struct types
 typedef struct timeval	t_timeval;
 typedef struct s_table	t_table;
 
