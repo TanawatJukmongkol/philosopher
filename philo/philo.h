@@ -6,7 +6,7 @@
 /*   By: tjukmong <tjukmong@student.42bangkok.co    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/09 05:46:35 by tjukmong          #+#    #+#             */
-/*   Updated: 2023/06/10 01:26:39 by tjukmong         ###   ########.fr       */
+/*   Updated: 2023/06/10 16:46:03 by tjukmong         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -77,8 +77,11 @@ void	philo_join(t_table *t);
 void	philo_died(t_philo *ph);
 void	philo_purge(t_philo *ph, int detatch);
 
-// At the diner's table
+// Utils
 void	update_timestamp(t_philo *ph, size_t *time);
+void	msleep(t_philo *ph, size_t *time_output, int msec);
+
+// At the diner's table
 void	*philo_routine(void *ph);
 
 #endif
