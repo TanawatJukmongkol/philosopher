@@ -6,7 +6,7 @@
 /*   By: tjukmong <tjukmong@student.42bangkok.co    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/10 16:39:34 by tjukmong          #+#    #+#             */
-/*   Updated: 2023/06/11 21:28:54 by tjukmong         ###   ########.fr       */
+/*   Updated: 2023/06/11 23:44:59 by tjukmong         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -95,4 +95,3 @@ void	philo_purge(t_philo *ph)
 		ph = tmp;
 	}
 }
-
