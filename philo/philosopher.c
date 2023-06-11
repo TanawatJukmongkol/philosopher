@@ -6,7 +6,7 @@
 /*   By: tjukmong <tjukmong@student.42bangkok.co    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/14 03:26:47 by tjukmong          #+#    #+#             */
-/*   Updated: 2023/06/11 20:13:07 by tjukmong         ###   ########.fr       */
+/*   Updated: 2023/06/11 21:28:50 by tjukmong         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,23 +56,6 @@ t_philo	*philo_spawn(t_table *t, void *(*routine)(void *))
 	return (philo_init(t, t->philo->left, routine));
 }
 
-void	philo_join(t_table *t)
-{
-	t_philo	*head;
-	t_philo	*tmp;
-
-	head = t->philo;
-	while (1)
-	{
-		tmp = t->philo->right;
-		if (pthread_join(tmp->thread, NULL))
-			return (philo_purge(t->philo));
-		if (tmp == head)
-			return ;
-		t->philo = tmp;
-	}
-}
-
 void	philo_died(t_philo *ph)
 {
 	pthread_mutex_lock(&ph->table->global_lock);
@@ -83,43 +66,4 @@ void	philo_died(t_philo *ph)
 		philo_detatch(ph);
 	}
 	pthread_mutex_unlock(&ph->table->global_lock);
-}
-
-void	philo_detatch(t_philo *ph)
-{
-	t_philo	*head;
-	t_philo	*tmp;
-
-	head = ph;
-	while (1)
-	{
-		tmp = ph->right;
-		if (tmp == head)
-		{
-			pthread_detach(tmp->thread);
-			return ;
-		}
-		pthread_detach(tmp->thread);
-		ph = tmp;
-	}
-}
-
-void	philo_purge(t_philo *ph)
-{
-	t_philo	*head;
-	t_philo	*tmp;
-
-	head = ph;
-	while (1)
-	{
-		tmp = ph->right;
-		if (tmp == head)
-		{
-			free(ph);
-			return ;
-		}
-		pthread_mutex_destroy(&ph->mutx);
-		free(ph);
-		ph = tmp;
-	}
 }
