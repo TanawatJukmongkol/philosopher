@@ -6,7 +6,7 @@
 /*   By: tjukmong <tjukmong@student.42bangkok.co    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/09 05:44:49 by tjukmong          #+#    #+#             */
-/*   Updated: 2023/06/10 17:09:26 by tjukmong         ###   ########.fr       */
+/*   Updated: 2023/06/11 20:12:06 by tjukmong         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,23 +43,21 @@ int	main(int argc, char **argv)
 	t_table			table;
 
 	av = NULL;
-	table.nbr_philo = 0;
 	if (parse_args(argc, argv, &ac, &av))
 		return (1);
-	if (ac == 5)
-		table.rules.times_to_eat = av[4];
-	else
-		table.rules.times_to_eat = INT_MAX;
+	table_init(&table, ac, av);
 	while (av[0]--)
 	{
 		if (!philo_spawn(&table, philo_routine))
 		{
-			philo_purge(table.philo, 1);
+			philo_purge(table.philo);
 			return (-1);
 		}
 	}
 	if (table.philo)
 		philo_join(&table);
-	philo_purge(table.philo, 0);
+	if (table.nbr_philo > 0)
+		philo_purge(table.philo);
+	pthread_mutex_destroy(&table.global_lock);
 	free(av);
 }

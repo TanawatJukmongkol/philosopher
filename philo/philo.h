@@ -6,7 +6,7 @@
 /*   By: tjukmong <tjukmong@student.42bangkok.co    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/09 05:46:35 by tjukmong          #+#    #+#             */
-/*   Updated: 2023/06/10 17:04:16 by tjukmong         ###   ########.fr       */
+/*   Updated: 2023/06/11 20:08:40 by tjukmong         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,6 +67,7 @@ typedef struct s_philo
 
 typedef struct s_table
 {
+	pthread_mutex_t	global_lock;
 	t_philo			*philo;
 	t_rules			rules;
 	int				nbr_philo;
@@ -76,13 +77,15 @@ typedef struct s_table
 t_philo	*philo_spawn(t_table *t, void *(*routine)(void *));
 void	philo_join(t_table *t);
 void	philo_died(t_philo *ph);
-void	philo_purge(t_philo *ph, int detatch);
+void	philo_detatch(t_philo *ph);
+void	philo_purge(t_philo *ph);
 
 // Utils
 void	update_timestamp(t_philo *ph, size_t *time);
 void	msleep(t_philo *ph, size_t *time_output, int msec);
 
 // At the diner's table
+void	table_init(t_table *table, int ac, int *av);
 void	*philo_routine(void *ph);
 
 #endif

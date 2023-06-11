@@ -6,7 +6,7 @@
 /*   By: tjukmong <tjukmong@student.42bangkok.co    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/14 03:26:47 by tjukmong          #+#    #+#             */
-/*   Updated: 2023/06/10 17:19:18 by tjukmong         ###   ########.fr       */
+/*   Updated: 2023/06/11 20:13:07 by tjukmong         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,7 @@ t_philo	*philo_init(t_table *t, t_philo	*ph, void *(*routine)(void *))
 	ph->table = t;
 	if (pthread_create(&ph->thread, NULL, routine, ph))
 	{
-		philo_purge(ph, 1);
+		philo_purge(ph);
 		return (NULL);
 	}
 	pthread_mutex_init(&ph->mutx, NULL);
@@ -66,10 +66,7 @@ void	philo_join(t_table *t)
 	{
 		tmp = t->philo->right;
 		if (pthread_join(tmp->thread, NULL))
-		{
-			perror("pthread_create error");
-			return (philo_purge(t->philo, 1));
-		}
+			return (philo_purge(t->philo));
 		if (tmp == head)
 			return ;
 		t->philo = tmp;
@@ -78,13 +75,36 @@ void	philo_join(t_table *t)
 
 void	philo_died(t_philo *ph)
 {
-	if (!ph->table->nbr_philo)
-		return (pthread_exit(NULL));
-	printf("Philosopher %d died\n", ph->id);
-	philo_purge(ph, 1);
+	pthread_mutex_lock(&ph->table->global_lock);
+	if (ph->table->nbr_philo > 0)
+	{
+		printf("Philosopher %d died\n", ph->id);
+		ph->table->nbr_philo = -1;
+		philo_detatch(ph);
+	}
+	pthread_mutex_unlock(&ph->table->global_lock);
 }
 
-void	philo_purge(t_philo *ph, int detatch)
+void	philo_detatch(t_philo *ph)
+{
+	t_philo	*head;
+	t_philo	*tmp;
+
+	head = ph;
+	while (1)
+	{
+		tmp = ph->right;
+		if (tmp == head)
+		{
+			pthread_detach(tmp->thread);
+			return ;
+		}
+		pthread_detach(tmp->thread);
+		ph = tmp;
+	}
+}
+
+void	philo_purge(t_philo *ph)
 {
 	t_philo	*head;
 	t_philo	*tmp;
@@ -98,11 +118,7 @@ void	philo_purge(t_philo *ph, int detatch)
 			free(ph);
 			return ;
 		}
-		if (detatch)
-		{
-			pthread_detach(ph->thread);
-			pthread_mutex_destroy(&ph->mutx);
-		}
+		pthread_mutex_destroy(&ph->mutx);
 		free(ph);
 		ph = tmp;
 	}

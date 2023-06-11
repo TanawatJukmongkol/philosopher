@@ -6,11 +6,21 @@
 /*   By: tjukmong <tjukmong@student.42bangkok.co    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/14 03:26:50 by tjukmong          #+#    #+#             */
-/*   Updated: 2023/06/10 17:18:41 by tjukmong         ###   ########.fr       */
+/*   Updated: 2023/06/11 20:05:11 by tjukmong         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philo.h"
+
+void	table_init(t_table *table, int ac, int *av)
+{
+	if (ac == 5)
+		table->rules.times_to_eat = av[4];
+	else
+		table->rules.times_to_eat = INT_MAX;
+	table->nbr_philo = 0;
+	pthread_mutex_init(&table->global_lock, NULL);
+}
 
 void	*philo_routine(void *ph)
 {
@@ -24,8 +34,7 @@ void	*philo_routine(void *ph)
 		printf("[%ldms] Philosopher #%d\n", time, philo->id);
 		msleep(ph, &time, 100);
 		philo->state.eaten++;
-		update_timestamp(ph, &time);
 	}
-	// philo_died(ph);
+	philo_died(ph);
 	return (NULL);
 }
