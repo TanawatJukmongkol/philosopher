@@ -6,7 +6,7 @@
 /*   By: tjukmong <tjukmong@student.42bangkok.co    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/10 16:39:34 by tjukmong          #+#    #+#             */
-/*   Updated: 2023/06/11 23:44:59 by tjukmong         ###   ########.fr       */
+/*   Updated: 2023/06/12 17:22:36 by tjukmong         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -95,3 +95,23 @@ void	philo_purge(t_philo *ph)
 		ph = tmp;
 	}
 }
+
+void	philo_take_fork(t_philo *ph, long time)
+{
+	if (!ph->state.holding && !ph->left->state.holding)
+	{
+		printf("%ld%8d has taken a fork\n", time, ph->id);
+		ph->state.holding = 1;
+		ph->left->state.holding = 1;
+		ph->state.agenda = _eat;
+	}
+}
+
+void	philo_free_fork(t_philo *ph)
+{
+	pthread_mutex_lock(&ph->mutx);
+	ph->state.holding = 0;
+	ph->left->state.holding = 0;
+	pthread_mutex_unlock(&ph->mutx);
+}
+

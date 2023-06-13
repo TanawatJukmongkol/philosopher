@@ -1,0 +1,12 @@
+==80960==ERROR: AddressSanitizer: SEGV on unknown address 0x7f70ef4fd990 (pc 0x7f70f369ef42 bp 0x7f70f1400060 sp 0x7ffd94be11c0 T0)
+==80960==The signal is caused by a READ memory access.
+    #0 0x7f70f369ef42  (/usr/lib/libc.so.6+0x88f42) (BuildId: 2f005a79cd1a8e385972f5a102f16adba414d75e)
+    #1 0x5568f9bbc3f4 in philo_join /home/arch/Projects/Cadet42/philosuffer/philo/utils.c:52
+    #2 0x5568f9bbb455 in main /home/arch/Projects/Cadet42/philosuffer/philo/philo.c:58
+    #3 0x7f70f363984f  (/usr/lib/libc.so.6+0x2384f) (BuildId: 2f005a79cd1a8e385972f5a102f16adba414d75e)
+    #4 0x7f70f3639909 in __libc_start_main (/usr/lib/libc.so.6+0x23909) (BuildId: 2f005a79cd1a8e385972f5a102f16adba414d75e)
+    #5 0x5568f9bbb6a4 in _start (/home/arch/Projects/Cadet42/philosuffer/philo/philo+0x26a4) (BuildId: 86ae41418527a7870691296f6ee6f69c7bdcf192)
+
+AddressSanitizer can not provide additional info.
+SUMMARY: AddressSanitizer: SEGV (/usr/lib/libc.so.6+0x88f42) (BuildId: 2f005a79cd1a8e385972f5a102f16adba414d75e) 
+==80960==ABORTING

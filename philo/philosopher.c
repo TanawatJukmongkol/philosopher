@@ -6,7 +6,7 @@
 /*   By: tjukmong <tjukmong@student.42bangkok.co    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/14 03:26:47 by tjukmong          #+#    #+#             */
-/*   Updated: 2023/06/11 23:33:17 by tjukmong         ###   ########.fr       */
+/*   Updated: 2023/06/13 13:46:31 by tjukmong         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,11 +14,12 @@
 
 t_philo	*philo_init(t_table *t, t_philo	*ph, void *(*routine)(void *))
 {
+	ph->table = t;
 	ph->state.eaten = 0;
+	ph->state.hunger = ph->table->rules.time_to_live;
 	ph->state.agenda = _think;
 	ph->state.holding = 0;
 	ph->id = t->nbr_philo;
-	ph->table = t;
 	if (pthread_create(&ph->thread, NULL, routine, ph))
 	{
 		philo_purge(ph);
@@ -58,12 +59,11 @@ t_philo	*philo_spawn(t_table *t, void *(*routine)(void *))
 
 void	philo_died(t_philo *ph)
 {
-	pthread_mutex_lock(&ph->table->global_lock);
-	if (ph->table->nbr_philo > 0)
-	{
-		printf("Philosopher %d died\n", ph->id);
-		ph->table->nbr_philo = -1;
-		philo_detatch(ph);
-	}
-	pthread_mutex_unlock(&ph->table->global_lock);
+	size_t	time;
+
+	time = 0;
+	update_timestamp(ph, &time);
+	printf("%ld%8d died.\n", time, ph->id);
+	ph->table->nbr_philo = -1;
+	philo_detatch(ph);
 }

@@ -6,7 +6,7 @@
 /*   By: tjukmong <tjukmong@student.42bangkok.co    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/09 05:46:35 by tjukmong          #+#    #+#             */
-/*   Updated: 2023/06/11 21:29:30 by tjukmong         ###   ########.fr       */
+/*   Updated: 2023/06/13 13:48:38 by tjukmong         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,10 +27,10 @@
 
 enum	e_state
 {
-	_think	= 0,
-	_hungry	= 1,
-	_eat	= 2,
-	_sleep	= 3
+	_think,
+	_waiting,
+	_eat,
+	_sleep
 };
 
 // Define struct types
@@ -49,6 +49,7 @@ typedef struct s_rules
 typedef struct s_state
 {
 	int				eaten;
+	int				hunger;
 	int				holding;
 	enum e_state	agenda;
 }				t_state;
@@ -67,7 +68,6 @@ typedef struct s_philo
 
 typedef struct s_table
 {
-	pthread_mutex_t	global_lock;
 	t_philo			*philo;
 	t_rules			rules;
 	int				nbr_philo;
@@ -83,6 +83,10 @@ void	msleep(t_philo *ph, size_t *time_output, int msec);
 void	philo_join(t_table *t);
 void	philo_detatch(t_philo *ph);
 void	philo_purge(t_philo *ph);
+
+// Actions
+void	philo_take_fork(t_philo *ph, long time);
+void	philo_free_fork(t_philo *ph);
 
 // At the diner's table
 void	table_init(t_table *table, int ac, int *av);

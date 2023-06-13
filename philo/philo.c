@@ -6,7 +6,7 @@
 /*   By: tjukmong <tjukmong@student.42bangkok.co    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/09 05:44:49 by tjukmong          #+#    #+#             */
-/*   Updated: 2023/06/11 20:12:06 by tjukmong         ###   ########.fr       */
+/*   Updated: 2023/06/13 13:52:56 by tjukmong         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,10 +54,8 @@ int	main(int argc, char **argv)
 			return (-1);
 		}
 	}
-	if (table.philo)
+	if (table.philo && table.nbr_philo > 0)
 		philo_join(&table);
-	if (table.nbr_philo > 0)
-		philo_purge(table.philo);
-	pthread_mutex_destroy(&table.global_lock);
+	philo_purge(table.philo);
 	free(av);
 }
