@@ -6,7 +6,7 @@
 /*   By: tjukmong <tjukmong@student.42bangkok.co    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/14 03:26:50 by tjukmong          #+#    #+#             */
-/*   Updated: 2023/06/13 14:05:37 by tjukmong         ###   ########.fr       */
+/*   Updated: 2023/06/16 18:32:07 by tjukmong         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,6 +22,7 @@ void	table_init(t_table *table, int ac, int *av)
 		table->rules.times_to_eat = av[4];
 	else
 		table->rules.times_to_eat = INT_MAX;
+	pthread_mutex_init(&table->mutx, NULL);
 }
 
 void	*philo_routine(void *ph)
@@ -33,40 +34,16 @@ void	*philo_routine(void *ph)
 	time = 0;
 	while (philo->state.eaten < philo->table->rules.times_to_eat)
 	{
-		update_timestamp(philo, &time);
-		if (pthread_mutex_lock(&philo->mutx) != 0)
+		usleep(50);
+		if (pthread_mutex_lock(&philo->table->mutx))
 			return (NULL);
 		printf("%ld%8d is ideling\n", time, philo->id);
-		msleep(philo, &time, 100);
 		philo->state.eaten++;
-		pthread_mutex_unlock(&philo->mutx);
-		philo_detatch(ph);
-		// if (philo->state.agenda == _think || philo->state.agenda == _waiting)
-		// {
-		// 	pthread_mutex_lock(&philo->mutx);
-		// 	if (philo->state.agenda != _waiting)
-		// 	{
-		// 		printf("%ld%8d is thinking\n", time, philo->id);
-		// 		philo->state.agenda = _waiting;
-		// 	}
-		// 	philo_take_fork(ph, time);
-		// 	pthread_mutex_unlock(&philo->mutx);
-		// }
-		// else if (philo->state.agenda == _eat)
-		// {
-		// 	printf("%ld%8d is eating\n", time, philo->id);
-		// 	msleep(philo, &time, philo->table->rules.time_to_eat);
-		// 	philo->state.eaten++;
-		// 	philo->state.agenda = _sleep;
-		// 	philo_free_fork(ph);
-		// }
-		// else if (philo->state.agenda == _sleep)
-		// {
-		// 	printf("%ld%8d is sleeping\n", time, philo->id);
-		// 	msleep(philo, &time, philo->table->rules.time_to_sleep);
-		// 	philo->state.agenda = _think;
-		// }
+		update_timestamp(philo, &time);
+		pthread_mutex_unlock(&philo->table->mutx);
+		if (philo->state.eaten == philo->table->rules.times_to_eat)
+			philo_died(ph);
+		msleep(philo, &time, 100);
 	}
-	philo_died(ph);
 	return (NULL);
 }

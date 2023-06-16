@@ -6,7 +6,7 @@
 /*   By: tjukmong <tjukmong@student.42bangkok.co    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/10 16:39:34 by tjukmong          #+#    #+#             */
-/*   Updated: 2023/06/12 17:22:36 by tjukmong         ###   ########.fr       */
+/*   Updated: 2023/06/16 17:57:24 by tjukmong         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -90,7 +90,6 @@ void	philo_purge(t_philo *ph)
 			free(ph);
 			return ;
 		}
-		pthread_mutex_destroy(&ph->mutx);
 		free(ph);
 		ph = tmp;
 	}
@@ -109,9 +108,7 @@ void	philo_take_fork(t_philo *ph, long time)
 
 void	philo_free_fork(t_philo *ph)
 {
-	pthread_mutex_lock(&ph->mutx);
 	ph->state.holding = 0;
 	ph->left->state.holding = 0;
-	pthread_mutex_unlock(&ph->mutx);
 }
 

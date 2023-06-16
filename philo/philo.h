@@ -6,7 +6,7 @@
 /*   By: tjukmong <tjukmong@student.42bangkok.co    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/09 05:46:35 by tjukmong          #+#    #+#             */
-/*   Updated: 2023/06/13 13:48:38 by tjukmong         ###   ########.fr       */
+/*   Updated: 2023/06/14 21:13:12 by tjukmong         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,7 +57,6 @@ typedef struct s_state
 typedef struct s_philo
 {
 	pthread_t		thread;
-	pthread_mutex_t	mutx;
 	t_state			state;
 	struct s_philo	*right;
 	struct s_philo	*left;
@@ -68,6 +67,7 @@ typedef struct s_philo
 
 typedef struct s_table
 {
+	pthread_mutex_t	mutx;
 	t_philo			*philo;
 	t_rules			rules;
 	int				nbr_philo;

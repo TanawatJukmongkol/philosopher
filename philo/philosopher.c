@@ -6,7 +6,7 @@
 /*   By: tjukmong <tjukmong@student.42bangkok.co    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/14 03:26:47 by tjukmong          #+#    #+#             */
-/*   Updated: 2023/06/13 13:46:31 by tjukmong         ###   ########.fr       */
+/*   Updated: 2023/06/16 18:31:58 by tjukmong         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,6 @@ t_philo	*philo_init(t_table *t, t_philo	*ph, void *(*routine)(void *))
 		philo_purge(ph);
 		return (NULL);
 	}
-	pthread_mutex_init(&ph->mutx, NULL);
 	gettimeofday(&t->rules.t_start, NULL);
 	return (ph);
 }
@@ -63,7 +62,6 @@ void	philo_died(t_philo *ph)
 
 	time = 0;
 	update_timestamp(ph, &time);
-	printf("%ld%8d died.\n", time, ph->id);
-	ph->table->nbr_philo = -1;
-	philo_detatch(ph);
+	printf("%ld%8d died\n", time, ph->id);
+	pthread_mutex_destroy(&ph->table->mutx);
 }
